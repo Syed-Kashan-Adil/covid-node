@@ -1,2 +1,2 @@
 # covid-node
-Node js backend implementation for cover-19 application
+Node js backend implementation for covid-19 application
