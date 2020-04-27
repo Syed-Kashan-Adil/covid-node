@@ -103,12 +103,15 @@ const UserController = {
     getUser: async (request, response) => {
         try {
             const { userId } = request.value.body
-            const user = UserModel.findOne({ _id: userId });
+            const user = await UserModel.findOne({ _id: userId });
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
             return response.status(200).send({ data: { user }, status: true })
         } catch (err) {
-
+            return response.status(400).send({
+                message: err,
+                status: false
+            })
         }
     }
 
