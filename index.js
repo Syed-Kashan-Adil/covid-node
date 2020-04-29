@@ -6,6 +6,7 @@ import "./database";
 import { UserController } from "./controllers/user"
 import { TempratureController } from "./controllers/temprature"
 import { authenticate } from "./utils/authenticate"
+import { LocationController } from './controllers/location';
 const app = express();
 const cors = require('cors');
 
@@ -22,6 +23,7 @@ app.get("/get_user", authenticate, UserController.getUser)
 app.post("/add_temprature", authenticate, TempratureController.addTemprature)
 app.get("/get_temprature_record", authenticate, TempratureController.getTempratureRecord)
 app.get("/user_detail", authenticate, UserController.userDetail)
+app.post("/add_location", authenticate, LocationController.addLocation)
 
 
 app.listen(process.env.PORT, () => {

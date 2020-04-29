@@ -8,7 +8,7 @@ const TempratureController = {
         try {
             const { temprature } = request.body;
             const { userId } = request.value.body;
-            const user = UserModel.findOne({ _id: userId });
+            const user = await UserModel.findOne({ _id: userId });
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
             const newTemprature = await new TempratureModel({
@@ -16,7 +16,7 @@ const TempratureController = {
                 temprature
             })
             await newTemprature.save();
-            return request.status(200).send({ message: "Temprature has been saved successfully", status: true })
+            return response.status(200).send({ message: "Temprature has been saved successfully", status: true })
 
         } catch (err) {
             return response.status(400).send({
