@@ -18,7 +18,7 @@ const LocationSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date()
+        required: true
     },
     processed: {
         type: Boolean,
