@@ -69,12 +69,17 @@ const UserController = {
     },
     registration: async (request, response) => {
         try {
-            const { fullName, address, } = request.body
+            const { fullName, address, asAdmin, adminKey } = request.body
             const { value: { body: { userId } } } = request
             const user = await UserModel.findOne({ _id: userId });
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
-            await UserModel.updateOne({ _id: userId }, { $set: { fullName, address } });
+            if (asAdmin) {
+                if (adminKey !== process.env.ADMIN_KEY) {
+                    return response.status(400).send({ message: "Admin key does not match", status: false })
+                }
+            }
+            await UserModel.updateOne({ _id: userId }, { $set: { fullName, address, userRole: asAdmin ? "admin" : "user" } });
             return response.status(200).send({ message: "Registration successfull", status: true })
         } catch (err) {
             return response.status(400).send({
