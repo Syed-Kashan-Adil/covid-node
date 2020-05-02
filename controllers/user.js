@@ -99,7 +99,7 @@ const UserController = {
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
             await UserModel.updateOne({ _id: userId }, { $set: { status } });
-            return response.status(200).send({ data: { tempratureRecord }, status: true })
+            return response.status(200).send({ status: true })
         } catch (err) {
             return response.status(400).send({
                 message: err,
