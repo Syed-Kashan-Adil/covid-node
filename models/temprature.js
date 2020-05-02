@@ -10,12 +10,9 @@ const TempratureSchema = new Schema({
         type: Number,
         required: true
     },
-    addedOn: {
-        type: Date,
-        default: new Date()
-    }
 
-}
+
+}, { timestamps: { createdAt: "created_at" } }
 );
 
 

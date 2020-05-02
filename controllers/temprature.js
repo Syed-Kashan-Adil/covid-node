@@ -1,4 +1,4 @@
-import JWT from "jsonwebtoken";
+import moment from "moment";
 import { UserModel } from "../models/user";
 import { TempratureModel } from "../models/temprature"
 
@@ -46,6 +46,32 @@ const TempratureController = {
             })
         }
 
+    },
+
+    checkLastTemprature: async (request, response) => {
+        try {
+            const { userId } = request.value.body;
+            const user = await UserModel.findOne({ _id: userId });
+            if (!user)
+                return response.status(400).send({ message: "User not found", status: false })
+            const temprature = await TempratureModel.findOne({ userId: userId }, {}, { sort: { created_at: -1 } });
+            if (!temprature) {
+                return response.status(200).send({ data: { getTemprature: true }, status: true })
+
+            }
+            const diff = moment().diff(moment(temprature.created_at), "hours");
+            if (diff > 24)
+                return response.status(200).send({ data: { getTemprature: true }, status: true })
+
+            return response.status(200).send({ data: { getTemprature: false }, status: true })
+
+
+        } catch (err) {
+            return response.status(400).send({
+                message: err,
+                status: false
+            })
+        }
     }
 
 }

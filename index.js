@@ -24,6 +24,7 @@ app.post("/add_temprature", authenticate, TempratureController.addTemprature)
 app.get("/get_temprature_record", authenticate, TempratureController.getTempratureRecord)
 app.get("/user_detail", authenticate, UserController.userDetail)
 app.post("/add_location", authenticate, LocationController.addLocation)
+app.get("/check_temprature", authenticate, TempratureController.checkLastTemprature);
 
 
 app.listen(process.env.PORT, () => {
