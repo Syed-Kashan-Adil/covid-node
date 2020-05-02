@@ -37,7 +37,7 @@ const TempratureController = {
             const user = await UserModel.findOne({ _id: userId });
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
-            const tempratureRecord = await TempratureModel.find({ userId });
+            const tempratureRecord = await TempratureModel.find({ userId }, {}, { sort: { created_at: -1 } });
             return response.status(200).send({ data: { tempratureRecord }, status: true })
         } catch (err) {
             return response.status(400).send({

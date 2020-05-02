@@ -90,13 +90,16 @@ const UserController = {
     },
     updateCovidStatus: async (request, response) => {
         try {
-            const { status } = request.body
-            const { userId } = request.value.body
+            const { userId: requestedPersonId } = request.value.body;
+            const { userId, status } = request.body
+            const requestedPerson = await UserModel.findOne({ _id: requestedPersonId, userRole: "admin" });
+            if (!requestedPerson)
+                return response.status(400).send({ message: "You do not have admin account", status: false })
             const user = await UserModel.findOne({ _id: userId });
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
-            await UserModel.updateOne({ _id: userId }, { $set: { status } })
-            return response.status(200).send({ message: "Covid status updated successfully", status: true })
+            await UserModel.updateOne({ _id: userId }, { $set: { status } });
+            return response.status(200).send({ data: { tempratureRecord }, status: true })
         } catch (err) {
             return response.status(400).send({
                 message: err,
