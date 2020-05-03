@@ -20,7 +20,7 @@ const LocationController = {
             })
             await newLocation.save();
             if (user.status === 0) {
-                const coordinates = await LocationModel.findA().populate("user", "status")
+                const coordinates = await LocationModel.find().populate("user", "status")
                 for (let value of coordinates) {
                     if (value.user._id !== userId && value.user.status > 0) {
                         const { latitude: lat, longitude: lng } = value;
