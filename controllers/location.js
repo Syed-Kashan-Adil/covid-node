@@ -20,7 +20,7 @@ const LocationController = {
             })
             await newLocation.save();
             if (user.status === 0) {
-                const coordinates = await LocationModel.find().populate("user", "status")
+                const coordinates = await LocationModel.find({}).populate("user", "status")
                 for (let value of coordinates) {
                     if (value.user._id !== userId && value.user.status > 0) {
                         const { latitude: lat, longitude: lng } = value;
@@ -34,6 +34,7 @@ const LocationController = {
                             longitude: lng
                         }
                         const meters = haversine(start, end, { unit: 'meter' });
+                        console.log(meters);
                         if (meters <= 3) {
                             await UserModel.updateOne({ _id: userId }, { $set: { status: 1 } })
                             break;
