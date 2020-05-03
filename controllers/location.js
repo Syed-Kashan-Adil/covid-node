@@ -34,7 +34,7 @@ const LocationController = {
                             longitude: lng
                         }
                         const meters = haversine(start, end, { unit: 'meter' });
-                        if (meters >= 3) {
+                        if (meters <= 3) {
                             await UserModel.updateOne({ _id: userId }, { $set: { status: 1 } })
                             break;
                         }

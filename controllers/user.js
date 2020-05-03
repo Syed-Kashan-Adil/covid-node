@@ -9,7 +9,7 @@ const UserController = {
     login: async (request, response) => {
         try {
             const { phoneNumber } = request.body;
-            await OTPModel.updateMany({ phoneNumber, active: true }, { $set: { active: false } })
+            await OTPModel.deleteMany({ phoneNumber, active: true });
             const code = 1111;
             const OTP = new OTPModel({
                 phoneNumber,
@@ -33,7 +33,7 @@ const UserController = {
             const OTP = await OTPModel.findOne({ phoneNumber, code, active: true });
             if (!OTP)
                 return response.status(400).send({ message: "OTP not found", status: false })
-            await OTPModel.updateOne({ _id: OTP.id }, { $set: { active: false } })
+            await OTPModel.deleteOne({ _id: OTP.id })
             const User = await UserModel.findOne({ phoneNumber });
             if (!User) {
                 const user = await new UserModel({

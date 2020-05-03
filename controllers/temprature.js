@@ -16,6 +16,8 @@ const TempratureController = {
                 temprature
             })
             await newTemprature.save();
+            if (temprature > 99 && user.status === 0)
+                await UserModel.updateOne({ _id: userId }, { $set: { status: 1 } })
             return response.status(200).send({ message: "Temprature has been saved successfully", status: true })
 
         } catch (err) {
