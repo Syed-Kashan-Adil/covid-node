@@ -6,6 +6,7 @@ import "./database";
 import { UserController } from "./controllers/user"
 import { TempratureController } from "./controllers/temprature"
 import { authenticate } from "./utils/authenticate"
+import { deleteLocationData } from "./utils/deleteLocationData"
 import { LocationController } from './controllers/location';
 const app = express();
 const cors = require('cors');
@@ -26,7 +27,7 @@ app.get("/user_detail", authenticate, UserController.userDetail)
 app.post("/add_location", authenticate, LocationController.addLocation)
 app.get("/check_temprature", authenticate, TempratureController.checkLastTemprature);
 
-
 app.listen(process.env.PORT, () => {
+    deleteLocationData();
     console.log(`Covid Server Is Listening On ${process.env.PORT}!`);
 });

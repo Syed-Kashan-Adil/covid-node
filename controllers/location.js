@@ -7,7 +7,7 @@ const haversine = require('haversine')
 const LocationController = {
     addLocation: async (request, response) => {
         try {
-            const { latitude, longitude, timestamp } = request.body;
+            const { latitude, longitude } = request.body;
             const { userId } = request.value.body;
             const user = await UserModel.findOne({ _id: userId });
             if (!user)
@@ -16,7 +16,6 @@ const LocationController = {
                 user: userId,
                 latitude,
                 longitude,
-                createdAt: new Date(timestamp)
             })
             await newLocation.save();
             if (user.status === 0) {

@@ -16,16 +16,8 @@ const LocationSchema = new Schema({
         type: Number,
         required: true
     },
-    createdAt: {
-        type: Date,
-        required: true
-    },
-    processed: {
-        type: Boolean,
-        default: false
-    }
 
-}
+}, { timestamps: true }
 );
 
 
