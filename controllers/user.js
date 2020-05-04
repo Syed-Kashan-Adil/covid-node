@@ -1,6 +1,7 @@
 import JWT from "jsonwebtoken";
 import { UserModel } from "../models/user";
 import { OTPModel } from "../models/otp"
+import { sendOtp } from "../utils/sendOtp"
 
 const JWTToken = (userId) => JWT.sign({
     userId,
@@ -10,7 +11,8 @@ const UserController = {
         try {
             const { phoneNumber } = request.body;
             await OTPModel.deleteMany({ phoneNumber, active: true });
-            const code = 1111;
+            const code = Math.floor(1000 + Math.random() * 9000);
+            await sendOtp(phoneNumber, code)
             const OTP = new OTPModel({
                 phoneNumber,
                 code,
