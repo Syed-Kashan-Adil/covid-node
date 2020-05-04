@@ -5,7 +5,7 @@ export const sendOtp = async (phoneNumber, code) => {
         const response = await client.messages
             .create({
                 body: `This is your verfication code for covid-19 application.\n${code}`,
-                from: process.env.SEND_PHONE_NUMBER,
+                from: process.env.SENDER_PHONE_NUMBER,
                 to: phoneNumber
             })
         console.log(response, "response")
