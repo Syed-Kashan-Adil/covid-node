@@ -7,7 +7,7 @@ const TempratureSchema = new Schema({
         required: true
     },
     temprature: {
-        type: Number,
+        type: String,
         required: true
     },
 

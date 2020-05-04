@@ -11,13 +11,27 @@ const TempratureController = {
             const user = await UserModel.findOne({ _id: userId });
             if (!user)
                 return response.status(400).send({ message: "User not found", status: false })
+            let type = ""
+            let status = 0;
+            if (temprature < 50) {
+                type = "°C";
+                if (temprature > 38) {
+                    status = 1
+                }
+            }
+            else {
+                type = "°F"
+                if (temprature > 99) {
+                    status = 1
+                }
+            }
             const newTemprature = await new TempratureModel({
                 userId,
-                temprature
+                temprature: `${temprature} ${type}`
             })
             await newTemprature.save();
-            if (temprature > 99 && user.status === 0)
-                await UserModel.updateOne({ _id: userId }, { $set: { status: 1 } })
+            if (user.status === 0 && status !== 0)
+                await UserModel.updateOne({ _id: userId }, { $set: { status } })
             return response.status(200).send({ message: "Temprature has been saved successfully", status: true })
 
         } catch (err) {
